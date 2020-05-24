@@ -3,6 +3,7 @@
     {{ message }}
     
     <div>{{ data }}</div>
+    <div class="ui button">test</div>
   </div>
 </template>
 
