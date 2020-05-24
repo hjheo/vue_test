@@ -2,11 +2,26 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/about">About</router-link> |
+      <router-link to="/works">Work</router-link>
     </div>
     <router-view/>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'App',
+  created() {
+    document.title = this.$route.meta.title
+  },
+  watch: {
+    $route(to, from) {
+      document.title = to.meta.title || 'Vue Test Page'
+    }
+  }
+}
+</script>
 
 <style>
 #app {
