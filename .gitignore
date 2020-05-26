@@ -3,3 +3,4 @@ dist/*
 *.log
 
 backend/routes/*
+mixin.js
