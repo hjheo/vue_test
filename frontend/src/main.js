@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import axios from 'axios'
 import moment from 'moment'
+import './filters'
 
 import VueFlatPickr from 'vue-flatpickr-component'
 import 'flatpickr/dist/flatpickr.css'

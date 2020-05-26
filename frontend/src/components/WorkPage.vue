@@ -36,8 +36,7 @@
       </div><!-- .inline.fields -->
     </div><!-- .ui.form -->
     
-    {{ workList }}
-    
+    <table-component :workList="workList"></table-component>
     <div class="ui divider"></div>
   </div>
 </template>
@@ -45,10 +44,12 @@
 <script>
 import mixin from '../mixin'
 import mixinApi from '../mixinApi'
+import TableComponent from './TableComponent'
 
 export default {
   mixins: [ mixin, mixinApi ],
   name: 'WorkPage',
+  components: { TableComponent },
   data() {
     return {
       date: null,
