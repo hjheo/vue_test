@@ -1,0 +1,24 @@
+let mixinApi = {
+  data() {
+    return {
+      hiddenLoader: true
+    }
+  },
+  methods: {
+    apiGetWorks(date, isConfirm) {
+      this.hiddenLoader = false
+      return this.$http.get('/api/works', { 
+          params: { workDate: date, isConfirm: isConfirm } 
+        })
+        .then((response) => {
+          this.hiddenLoader = true
+          return response.data
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+  }
+}
+
+export default mixinApi;
