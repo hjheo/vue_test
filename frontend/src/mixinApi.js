@@ -18,6 +18,17 @@ let mixinApi = {
           console.log(error)
         })
     },
+    apiGetWorkDetail(workId) {
+      this.hiddenLoader = false
+      return this.$http.get('/api/works/work', { params: { workId: workId } })
+        .then((response) => {
+          this.hiddenLoader = true
+          return response.data
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
   }
 }
 
