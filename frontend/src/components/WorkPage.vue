@@ -101,7 +101,7 @@ export default {
   margin-right: 40px;
   text-align: left;
 }
-.ui.radio.checkbox label:hover {
+.ui.checkbox label:hover {
   cursor: pointer;
 }
 .hidden {

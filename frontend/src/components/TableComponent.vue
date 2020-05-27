@@ -14,7 +14,7 @@
           <td>{{ list.workDate | dashYmd }}</td>
           <td><a class="link" @click="moveManagerPage(list)">{{ list.manager.name }}</a></td>
           <td><a class="link" @click="moveMemberPage(list)">{{ list.member }}</a> &nbsp;
-            <i v-if="!list.isRegular" class="user times icon"></i>
+            <i v-if="list.isRegular[0] == 'N'" class="user times icon"></i>
           </td>
           <td><a class="link" @click="showModal(list)">{{ list.workType }}</a></td>
           <td v-for="value in workListValue">{{ list[value] }}</td>
@@ -22,7 +22,7 @@
       </tbody>
     </table>
     
-    <modal-component :title="title" :installs="installs" :parts="parts">
+    <modal-component :title="title" :installs="installs" :parts="parts" :isRegular="isRegular">
     </modal-component>
   </div>
 </template>
@@ -50,7 +50,7 @@ export default {
       this.apiGetWorkDetail(list.workId)
         .then((response) => {
           this.parts = response[1]
-          this.isRegular = list.isRegular
+          this.isRegular = list.isRegular.split('/')
           
           let array = new Array()
           response[0].forEach(x => {
@@ -73,7 +73,7 @@ export default {
         }).modal('show')
     },
     clearData() {
-      this.workDetail = []
+      this.installs = []
       this.parts = []
     }
   }

@@ -7,14 +7,51 @@
         <div class="ui loader"></div>
       </div>
       
-      <!-- work detail -->
-      {{ installs }}
-      {{ parts }}
-      
-    </div>
+      <!-- Work Detail -->
+      <div class="ui top attached segment">
+        <div class="ui top attached label">Installs & Parts</div>
+      </div>
+      <div class="ui attached segment">
+        <div class="ui form" v-if="installs.length > 0 || parts.length > 0">
+          <!-- Check All -->
+          <div class="field">
+            <div class="ui checkbox" @keyup.enter="confirm">
+              <input type="checkbox" id="all" v-model="checkedAll" @click="check" />
+              <label for="all"><b>CHECK ALL</b></label>
+            </div>
+          </div>
+          <!-- Installs -->
+          <div class="inline field" v-for="(install, index) in installs">
+            <div class="ui checkbox">
+              <input type="checkbox" tabindex="0" class="hidden" 
+                    :id="'install'+index" :value="install" v-model="checkedInstall" />
+              <label :for="'install'+index">
+                {{ install.product }}_{{ install.text }}
+                <span v-if="install.price != 0">_{{ install.price }}</span>
+              </label>
+            </div>
+          </div>
+          <!-- Parts -->
+          <div class="inline field" v-for="(part, index) in parts">
+            <div class="ui checkbox">
+              <input type="checkbox" tabindex="0" class="hidden" 
+                    :id="'part'+index" :value="part" v-model="checkedPart" />
+              <label :for="'part'+index">{{ part.name }}_{{ part.qty }}_{{ part.price }}</label>
+            </div>
+          </div>
+          <!-- Result -->
+          <a class="link" id="result" v-model="result" @click="copyStr($event.target)">{{ result }}</a>
+        </div><!-- .ui.form -->
+        
+        <div class="noData" v-else>
+          <h3 class="ui header"><i class="file outline icon"></i>Nothing Data</h3>
+        </div>
+      </div><!-- .ui.segment -->
+    </div><!-- .content -->
+    
     <div class="actions">
-      <div class="ui deny button">Cancel</div>
-      <div class="ui primary button">Confirm</div>
+      <div class="ui deny button" @click="clearData">Cancel</div>
+      <div class="ui primary button" @click="confirm">Confirm</div>
     </div>
   </div><!-- .ui.modal -->
 </template>
@@ -26,15 +63,110 @@ import mixinApi from '../mixinApi'
 export default {
   mixins: [ mixin, mixinApi ],
   name: 'ModalComponent',
-  props: [ 'title', 'installs', 'parts' ],
+  props: [ 'title', 'installs', 'parts', 'isRegular' ],
   data() {
     return {
+      checkedInstall: [],
+      checkedPart: [],
+      checkedAll: false,
+      result: '',
     }
   },
   methods: {
+    confirm() {
+      this.copyStr(document.querySelector('#result'))
+      alert('Copied!')
+      
+      // modal hide & clear data
+      $('#workDetailModal').modal({ onHide:() => { this.clearData() } })
+        .modal('hide')
+    },
+    check() {
+      this.checkedInstall = []
+      this.checkedPart = []
+      
+      if(!this.checkedAll) {
+        for(let i in this.installs) {
+          this.checkedInstall.push(this.installs[i])
+        }
+        for(let i in this.parts) {
+          this.checkedPart.push(this.parts[i])
+        }
+      }
+    },
+    setResult() {
+      let object = this.partObject
+      let install = this.installArray
+      let part = []
+      
+      if(install.length > 0) {
+        let array = [object.name, object.price]
+                      .filter((val) => { return val != 0 && val != '' }).join('_')
+        if(!array) part = array
+        else part = '_'+array
+      } else {
+        part = this.isRegular[1]+this.isRegular[2]+'_'+Object.values(object).join('_')
+      }
+      this.result = install.join(', ')+part
+    },
+    clearData() {
+      this.clearChecked()
+    },
+    clearChecked() {
+      this.clearObject(this.partObject)
+      this.clearArray([this.installArray, this.checkedInstall, this.checkedPart])
+      this.result = ''
+      this.checkedAll = false
+    },
   },
+  computed: {
+    installArray() {
+      let installArray = new Array()
+      let regular = this.isRegular
+      
+      this.checkedInstall.forEach(x => {
+        let array
+        if(x.sortThird == '3A' || x.sortThird == '3B') {
+          if(regular[0] == 'Y') array = [regular[1]+x.text, x.product, x.price]
+          else array = [x.text+regular[1], x.product]
+        } else {
+          array = [x.product, x.text, x.price]
+        }
+        installArray.push(array.filter((val) => { return val != 0 }).join('_'))
+      })
+      return installArray
+    },
+    partObject() {
+      const reducer = (accumulator, currentValue) => accumulator + currentValue
+      let name = new Array()
+      let qty = new Array()
+      let price = new Array()
+      
+      this.checkedPart.forEach(x => {
+        name.push(x.name.replace(/\s/gi, ''))
+        qty.push(Number(x.qty))
+        price.push(Number(x.qty)*Number(x.price))
+      })
+      return { name: name.join(','), qty: qty.reduce(reducer,0), price: price.reduce(reducer,0) }
+    },
+  },
+  watch: {
+    checkedInstall() {
+      this.setResult()
+    },
+    checkedPart() {
+      this.setResult()
+    }
+  }
 }
 </script>
 
 <style lang="css">
+.noData {
+  display: flex;
+  height: 80px;
+  text-align: center;
+  justify-content: center;
+  flex-direction: column;
+}
 </style>
