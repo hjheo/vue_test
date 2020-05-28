@@ -74,8 +74,9 @@ export default {
       let array = new Array()
       for(let i in data) {
         let split = data[i].manager.split('/')
-        let object = { secondCode: split[0], firstCode: split[1], area: split[2], name: split[3] }
-        array.push(object)
+        array.push({ 
+          secondCode: split[0], firstCode: split[1], area: split[2], name: split[3] 
+        })
         data[i].manager = array[i]
       }
       return data

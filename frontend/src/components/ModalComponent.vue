@@ -47,6 +47,9 @@
           <h3 class="ui header"><i class="file outline icon"></i>Nothing Data</h3>
         </div>
       </div><!-- .ui.segment -->
+
+      <!-- Sales -->
+      <modal-table-component :sales="sales"></modal-table-component>
     </div><!-- .content -->
     
     <div class="actions">
@@ -59,11 +62,13 @@
 <script>
 import mixin from '../mixin'
 import mixinApi from '../mixinApi'
+import ModalTableComponent from './ModalTableComponent'
 
 export default {
   mixins: [ mixin, mixinApi ],
   name: 'ModalComponent',
-  props: [ 'title', 'installs', 'parts', 'isRegular' ],
+  props: [ 'title', 'installs', 'parts', 'isRegular', 'sales' ],
+  components: { ModalTableComponent },  
   data() {
     return {
       checkedInstall: [],
@@ -77,7 +82,6 @@ export default {
       this.copyStr(document.querySelector('#result'))
       alert('Copied!')
       
-      // modal hide & clear data
       $('#workDetailModal').modal({ onHide:() => { this.clearData() } })
         .modal('hide')
     },

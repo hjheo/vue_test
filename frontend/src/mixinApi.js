@@ -29,6 +29,17 @@ let mixinApi = {
           console.log(error)
         })
     },
+    apiGetSales(memberId) {
+      this.hiddenLoader = false
+      return this.$http.get('/api/works/sale', { params: { memberId: memberId } })
+        .then((response) => {
+          this.hiddenLoader = true
+          return response.data
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
   }
 }
 

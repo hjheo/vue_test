@@ -5,7 +5,7 @@
         <tr><th rowspan="2">No.</th>
         <th rowspan="2" v-for="key in workListKey[0]">{{ key }}</th>
         <th colspan="5">Card</th>
-        <th rowspan="2">Update</th></tr>
+        <th rowspan="2">Updated</th></tr>
         <tr><th v-for="key in workListKey[1]">{{ key }}</th></tr>
       </thead>
       <tbody class="center aligned">
@@ -22,7 +22,9 @@
       </tbody>
     </table>
     
-    <modal-component :title="title" :installs="installs" :parts="parts" :isRegular="isRegular">
+    <modal-component 
+      :title="title" :installs="installs" :parts="parts" :isRegular="isRegular"
+      :sales="sales">
     </modal-component>
   </div>
 </template>
@@ -41,6 +43,7 @@ export default {
     return {
       installs: [],
       parts: [],
+      sales: [],
       isRegular: '',
       title: '',
     }
@@ -60,6 +63,12 @@ export default {
           this.installs = array
         })
     },
+    getSales(list) {
+      this.apiGetSales(list.memberId)
+        .then((response) => {
+          this.sales = response[0]
+        })
+    },
     showModal(list) {
       this.title = list.member + '(' + list.memberId + ')'
       
@@ -67,6 +76,7 @@ export default {
         .modal({ 
           onShow:() => { 
             this.getWorkDetail(list)
+            this.getSales(list)
           },
           onHidden:() => { this.clearData() },
           inverted: true
