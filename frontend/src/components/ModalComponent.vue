@@ -40,7 +40,8 @@
             </div>
           </div>
           <!-- Result -->
-          <a class="link" id="result" v-model="result" @click="copyStr($event.target)">{{ result }}</a>
+          <a class="link" id="result" v-model="result" v-if="result"
+            @click="copyStr($event.target)">{{ result }}</a>
         </div><!-- .ui.form -->
         
         <div class="noData" v-else>
@@ -52,6 +53,8 @@
       <modal-table-component :sales="sales" :salesHistory="salesHistory">
       </modal-table-component>
       
+      <!-- Records -->
+      <records-component :records="records"></records-component>
     </div><!-- .content -->
     
     <div class="actions">
@@ -65,12 +68,13 @@
 import mixin from '../mixin'
 import mixinApi from '../mixinApi'
 import ModalTableComponent from './ModalTableComponent'
+import RecordsComponent from './RecordsComponent'
 
 export default {
   mixins: [ mixin, mixinApi ],
   name: 'ModalComponent',
-  props: [ 'title', 'installs', 'parts', 'isRegular', 'sales', 'salesHistory' ],
-  components: { ModalTableComponent },  
+  props: [ 'title', 'installs', 'parts', 'isRegular', 'sales', 'salesHistory', 'records' ],
+  components: { ModalTableComponent, RecordsComponent },  
   data() {
     return {
       checkedInstall: [],
@@ -101,6 +105,8 @@ export default {
       }
     },
     setResult() {
+      if(this.checkedInstall.length == 0 && this.checkedPart.length == 0) return
+      
       let object = this.partObject
       let install = this.installArray
       let part = []
@@ -121,8 +127,8 @@ export default {
     clearChecked() {
       this.clearObject(this.partObject)
       this.clearArray([this.installArray, this.checkedInstall, this.checkedPart])
-      this.result = ''
       this.checkedAll = false
+      this.result = ''
     },
   },
   computed: {
@@ -162,6 +168,9 @@ export default {
     },
     checkedPart() {
       this.setResult()
+    },
+    checkedAll() {
+      if(this.checkedAll == false) this.result = ''
     }
   }
 }

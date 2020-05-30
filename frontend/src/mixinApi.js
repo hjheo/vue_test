@@ -40,6 +40,17 @@ let mixinApi = {
           console.log(error)
         })
     },
+    apiGetRecords(memberId) {
+      this.hiddenLoader = false
+      return this.$http.get('/api/works/record', { params: { memberId: memberId } })
+        .then((response) => {
+          this.hiddenLoader = true
+          return response.data
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
   }
 }
 

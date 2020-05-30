@@ -24,7 +24,7 @@
     
     <modal-component 
       :title="title" :installs="installs" :parts="parts" :isRegular="isRegular"
-      :sales="sales" :salesHistory="salesHistory">
+      :sales="sales" :salesHistory="salesHistory" :records="records">
     </modal-component>
   </div>
 </template>
@@ -45,6 +45,7 @@ export default {
       parts: [],
       sales: [],
       salesHistory: [],
+      records: [],
       isRegular: '',
       title: '',
       useProduct: [],
@@ -82,6 +83,12 @@ export default {
         else x.open = false
       })
     },
+    getRecords(list) {
+      this.apiGetRecords(list.memberId)
+        .then((response) => {
+          this.records = response
+        })
+    },
     showModal(list) {
       this.title = list.member + '(' + list.memberId + ')'
       
@@ -90,6 +97,7 @@ export default {
           onShow:() => { 
             this.getWorkDetail(list)
             this.getSales(list)
+            this.getRecords(list)
           },
           onHidden:() => { this.clearData() },
           inverted: true
