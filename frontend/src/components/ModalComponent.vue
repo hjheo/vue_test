@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="ui large modal" id="workDetailModal">
     <div class="header">WORK DETAIL - {{ title }}</div>
-    <div class="content">
+    <div class="scrolling content">
       <!-- loader -->
       <div class="ui active inverted dimmer" :class="{ hidden: hiddenLoader }">
         <div class="ui loader"></div>
@@ -44,12 +44,14 @@
         </div><!-- .ui.form -->
         
         <div class="noData" v-else>
-          <h3 class="ui header"><i class="file outline icon"></i>Nothing Data</h3>
+          <h4 class="ui header"><i class="file outline icon"></i>Nothing Data</h4>
         </div>
       </div><!-- .ui.segment -->
 
       <!-- Sales -->
-      <modal-table-component :sales="sales"></modal-table-component>
+      <modal-table-component :sales="sales" :salesHistory="salesHistory">
+      </modal-table-component>
+      
     </div><!-- .content -->
     
     <div class="actions">
@@ -67,7 +69,7 @@ import ModalTableComponent from './ModalTableComponent'
 export default {
   mixins: [ mixin, mixinApi ],
   name: 'ModalComponent',
-  props: [ 'title', 'installs', 'parts', 'isRegular', 'sales' ],
+  props: [ 'title', 'installs', 'parts', 'isRegular', 'sales', 'salesHistory' ],
   components: { ModalTableComponent },  
   data() {
     return {
@@ -168,7 +170,7 @@ export default {
 <style lang="css">
 .noData {
   display: flex;
-  height: 80px;
+  height: 50px;
   text-align: center;
   justify-content: center;
   flex-direction: column;
