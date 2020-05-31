@@ -19,10 +19,8 @@ let mixinApi = {
         })
     },
     apiGetWorkDetail(workId) {
-      this.hiddenLoader = false
       return this.$http.get('/api/works/work', { params: { workId: workId } })
         .then((response) => {
-          this.hiddenLoader = true
           return response.data
         })
         .catch((error) => {
@@ -30,10 +28,8 @@ let mixinApi = {
         })
     },
     apiGetSales(memberId) {
-      this.hiddenLoader = false
       return this.$http.get('/api/works/sale', { params: { memberId: memberId } })
         .then((response) => {
-          this.hiddenLoader = true
           return response.data
         })
         .catch((error) => {
@@ -41,10 +37,8 @@ let mixinApi = {
         })
     },
     apiGetRecords(memberId) {
-      this.hiddenLoader = false
       return this.$http.get('/api/works/record', { params: { memberId: memberId } })
         .then((response) => {
-          this.hiddenLoader = true
           return response.data
         })
         .catch((error) => {

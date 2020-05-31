@@ -2,8 +2,8 @@
   <div class="ui large modal" id="workDetailModal">
     <div class="header">WORK DETAIL - {{ title }}</div>
     <div class="scrolling content">
-      <!-- loader -->
-      <div class="ui active inverted dimmer" :class="{ hidden: hiddenLoader }">
+      <!-- Loader -->
+      <div class="ui active inverted dimmer" :class="{ hidden: loader }">
         <div class="ui loader"></div>
       </div>
       
@@ -73,7 +73,7 @@ import RecordsComponent from './RecordsComponent'
 export default {
   mixins: [ mixin, mixinApi ],
   name: 'ModalComponent',
-  props: [ 'title', 'installs', 'parts', 'isRegular', 'sales', 'salesHistory', 'records' ],
+  props: [ 'title', 'installs', 'parts', 'isRegular', 'sales', 'salesHistory', 'records', 'loader' ],
   components: { ModalTableComponent, RecordsComponent },  
   data() {
     return {

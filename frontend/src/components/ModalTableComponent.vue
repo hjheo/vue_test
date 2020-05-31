@@ -4,7 +4,8 @@
       <i class="chevron down link icon"
         :class="{ up: !salesFlag, down: salesFlag }" @click="salesOpen()"></i>
     </div>
-    <table :class="tableClass" class="ui basic">
+    <!-- Table -->
+    <table :class="tableClass" class="ui basic small">
       <thead class="center aligned">
         <tr><th v-for="key in salesListKey">{{ key }}</th></tr>
       </thead>

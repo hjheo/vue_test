@@ -24,7 +24,7 @@
     
     <modal-component 
       :title="title" :installs="installs" :parts="parts" :isRegular="isRegular"
-      :sales="sales" :salesHistory="salesHistory" :records="records">
+      :sales="sales" :salesHistory="salesHistory" :records="records" :loader="loader">
     </modal-component>
   </div>
 </template>
@@ -49,6 +49,7 @@ export default {
       isRegular: '',
       title: '',
       useProduct: [],
+      loader: true,
     }
   },
   methods: {
@@ -91,6 +92,7 @@ export default {
     },
     showModal(list) {
       this.title = list.member + '(' + list.memberId + ')'
+      this.loader = false
       
       $('#workDetailModal')
         .modal({ 
@@ -99,12 +101,13 @@ export default {
             this.getSales(list)
             this.getRecords(list)
           },
+          onVisible:() => { this.loader = true },
           onHidden:() => { this.clearData() },
           inverted: true
         }).modal('show')
     },
     clearData() {
-      this.clearArray([this.installs, this.parts, this.sales, this.salesHistory])
+      this.clearArray([this.installs, this.parts, this.sales, this.salesHistory, this.records])
     },
   }
 }
