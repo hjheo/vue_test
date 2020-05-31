@@ -50,7 +50,8 @@
       </div><!-- .ui.segment -->
 
       <!-- Sales -->
-      <modal-table-component :sales="sales" :salesHistory="salesHistory">
+      <modal-table-component @show-details="showDetails"
+        :sales="sales" :salesHistory="salesHistory" :salesCount="salesCount">
       </modal-table-component>
       
       <!-- Records -->
@@ -81,6 +82,7 @@ export default {
       checkedPart: [],
       checkedAll: false,
       result: '',
+      salesCount: [],
     }
   },
   methods: {
@@ -123,12 +125,19 @@ export default {
     },
     clearData() {
       this.clearChecked()
+      this.salesCount.length = 0
     },
     clearChecked() {
       this.clearObject(this.partObject)
       this.clearArray([this.installArray, this.checkedInstall, this.checkedPart])
       this.checkedAll = false
       this.result = ''
+    },
+    showDetails(sale) {
+      this.apiGetSalesCount(sale)
+        .then((response) => {
+          this.salesCount = response
+        })
     },
   },
   computed: {
@@ -179,7 +188,7 @@ export default {
 <style lang="css">
 .noData {
   display: flex;
-  height: 50px;
+  height: 45px;
   text-align: center;
   justify-content: center;
   flex-direction: column;

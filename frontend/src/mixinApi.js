@@ -28,7 +28,18 @@ let mixinApi = {
         })
     },
     apiGetSales(memberId) {
-      return this.$http.get('/api/works/sale', { params: { memberId: memberId } })
+      return this.$http.get('/api/works/sales', { params: { memberId: memberId } })
+        .then((response) => {
+          return response.data
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+    apiGetSalesCount(sale) {
+      return this.$http.get('/api/works/sales-count', { 
+          params: { memberId: sale.memberId, productId: sale.productId, productCode: sale.productCode } 
+        })
         .then((response) => {
           return response.data
         })
@@ -37,7 +48,7 @@ let mixinApi = {
         })
     },
     apiGetRecords(memberId) {
-      return this.$http.get('/api/works/record', { params: { memberId: memberId } })
+      return this.$http.get('/api/works/records', { params: { memberId: memberId } })
         .then((response) => {
           return response.data
         })
