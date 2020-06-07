@@ -1,9 +1,14 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/works">Work</router-link>
+      <!-- Menu -->
+      <div class="ui top fixed teal inverted menu">
+        <div class="item">
+          <h5 class="header"><i class="vimeo icon"></i> VUE TEST</h5>
+        </div>
+        <router-link to="/" class="item">Home</router-link>
+        <router-link to="/works" class="item">Work</router-link>
+      </div><!-- .ui.menu -->
     </div>
     <router-view/>
   </div>
@@ -14,6 +19,9 @@ export default {
   name: 'App',
   created() {
     document.title = this.$route.meta.title
+  },
+  mounted() {
+    $('.ui.dropdown').dropdown()
   },
   watch: {
     $route(to, from) {
@@ -31,17 +39,7 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
-
 #nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+  padding: 35px;
 }
 </style>
