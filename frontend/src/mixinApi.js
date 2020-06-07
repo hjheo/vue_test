@@ -56,6 +56,24 @@ let mixinApi = {
           console.log(error)
         })
     },
+    apiUpdateCount(params) {
+      this.$http.put('/api/works/update/count', params)
+        .then((response) => {
+          alert('Success!')
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+    apiUpdateQty(params) {
+      this.$http.put('/api/works/update/quantity', params)
+        .then((response) => {
+          alert('Success!')
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
   }
 }
 

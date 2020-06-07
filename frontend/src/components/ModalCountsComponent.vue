@@ -11,22 +11,22 @@
     <tbody class="center aligned">
       <tr>
         <td v-for="value in countListValue">
-          <input type="text" v-model="params[value]" />
+          <input type="text" v-model="params[value]" @focus="selectTarget($event)" />
         </td>
         <td class="two wide">
           <div class="ui action input">
-            <input type="text" v-model="paramsChild.count"/>
-            <button class="ui icon button">
+            <input type="text" v-model="paramsChild.count" @focus="selectTarget($event)" />
+            <button class="ui icon button" @click="updateCount(paramsChild.count)">
               <i class="save icon"></i>
             </button>
           </div>
         </td>
         <td class="four wide" id="countTd">
           <span v-for="count in countChild">
-            <input type="text" class="defaultQty" v-model="count.defaultQty" />
+            <input type="text" class="defaultQty" v-model="count.defaultQty" @focus="selectTarget($event)" />
             <div class="ui action input">
-              <input type="text" v-model="count.overQty" />
-              <button class="ui icon button">
+              <input type="text" v-model="count.overQty" @focus="selectTarget($event)" />
+              <button class="ui icon button" @click="updateQty(count)">
                 <i class="save icon"></i>
               </button>
             </div>
@@ -51,6 +51,15 @@ export default {
     }
   },
   methods: {
+    selectTarget(event) {
+      event.target.select();
+    },
+    updateCount(count) {
+      this.$emit('update-count', count)
+    },
+    updateQty(qty) {
+      this.$emit('update-qty', qty)
+    }
   }
 }
 </script>

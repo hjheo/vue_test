@@ -41,7 +41,8 @@
       </table>
       
       <div class="ui form" v-if="salesCount.length > 0" id="salesCountTable">
-        <modal-counts :salesCount="salesCount" :params="params">
+        <modal-counts :salesCount="salesCount" :params="params"
+          @update-count="updateCount" @update-qty="updateQty">
         </modal-counts>
       </div><!-- .ui.form -->
     
@@ -78,6 +79,31 @@ export default {
         productId: sale.productId,
         productCode: sale.productCode,
         count: sale.count+1
+      }
+    },
+    updateCount(count) {
+      this.$emit('update-count', count)
+      
+      this.params.count = count
+      if(confirm(this.alertMessage+'Count Update?')) { 
+        this.apiUpdateCount(this.params)
+      } else { 
+        // do nothing
+      }
+    },
+    updateQty(qty) {
+      this.$emit('update-qty', qty)
+      
+      let params = this.params
+      delete params.count
+      params.filter = qty.filter
+      params.defaultQty = Number(qty.defaultQty)
+      params.overQty = Number(qty.overQty)
+      
+      if(confirm(this.alertMessage+'Qty Update?')) {
+        this.apiUpdateQty(params)
+      } else {
+        // do nothing
       }
     },
   }
